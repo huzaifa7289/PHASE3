@@ -1,0 +1,70 @@
+# Default values for phase-3-deployment
+
+replicaCount: 1
+
+# Frontend (Next.js)
+frontend:
+  image:
+    repository: phase3-frontend
+    tag: latest
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: NodePort
+    port: 80
+    targetPort: 3000
+    nodePort: 30000
+  
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  
+  env:
+    NEXT_PUBLIC_API_URL: http://localhost:8000
+
+# Backend (Python FastAPI)
+backend:
+  image:
+    repository: phase3-backend
+    tag: latest
+    pullPolicy: IfNotPresent
+  
+  service:
+    type: NodePort
+    port: 8000
+    targetPort: 8000
+    nodePort: 30001
+  
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "500m"
+    limits:
+      memory: "1Gi"
+      cpu: "1000m"
+  
+  env:
+    DATABASE_URL: sqlite:///./test.db
+    API_PORT: 8000
+    DEBUG: "false"
+
+# Database (Optional - SQLite in-container for dev)
+database:
+  enabled: true
+  storage: 1Gi
+
+# Ingress
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: localhost
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
