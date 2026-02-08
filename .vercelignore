@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+.npm/
+
+# Testing
+.pytest_cache/
+test_*.py
+
+# Backend (we're only deploying frontend)
+backend/
+mcp-server/
+specs/
+history/
+helm/
+
+# Docs and configs
+*.md
+CLAUDE.md
+
+# OS and IDE
+.git
+.DS_Store
+.vscode
+.idea
+*.log
